@@ -1,5 +1,11 @@
 # ![Graylog output plugin Syslog](graylog-output-syslog-lucas-minklein-3974.png)
 
+>[!note]
+> This fork adds a FullMessageSender class annd option to the output. 
+> This allows for a fully transparent redirect of messages by simply sending the *full_message* field to the selected destination.
+>
+> The "store full message" option must be enabled for each of the input you want to output.
+
 Based on the syslog4j library bundled with Graylog.
 
 This plugin allows you to forward messages from a Graylog server in syslog format. 
