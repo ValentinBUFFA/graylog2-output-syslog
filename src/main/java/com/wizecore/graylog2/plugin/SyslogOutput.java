@@ -70,6 +70,9 @@ public class SyslogOutput implements MessageOutput {
 			if (fmt == null || fmt.equalsIgnoreCase("cef")) {
 				return new CEFSender();
 			} else
+			if (fmt == null || fmt.equalsIgnoreCase("full_message")) {
+				return new FullMessageSender();
+			} else
 			if (fmt == null || fmt.toLowerCase().startsWith("custom:")) {
 				String clazz = fmt.substring(fmt.indexOf(":") + 1);
 				return (MessageSender) Class.forName(clazz).newInstance();
@@ -171,7 +174,7 @@ public class SyslogOutput implements MessageOutput {
 
 		sender = createSender(format, conf);
 
-		if (sender instanceof TransparentSyslogSender) {
+		if (sender instanceof TransparentSyslogSender || sender instanceof FullMessageSender) {
 			// Always send empty header, which we will construct ourselves
 			syslog.setMessageProcessor(new SyslogMessageProcessor() {
 				@Override
@@ -307,6 +310,7 @@ public class SyslogOutput implements MessageOutput {
 			types.put("full", "full");
 			types.put("transparent", "transparent");
 			types.put("snare", "snare");
+			types.put("full_message", "full_message");
 
 			// Make immutable map from types
 			final Map<String, String> formats = ImmutableMap.copyOf(types);
